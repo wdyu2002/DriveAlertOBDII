@@ -1,0 +1,12 @@
+Sprint-No-Exit: yes
+Sprint-Launch-Power-On: yes
+MIDlet-1: DriveAlert,,com.devculture.drivealert.DriveAlert
+MIDlet-Jar-URL: DriveAlert.jar
+MicroEdition-Configuration: CLDC-1.1
+MIDlet-Push-1: sms://:50001,com.devculture.drivealert.DriveAlert,*
+MIDlet-Version: 1.0.0
+MIDlet-Vendor: DevCulture, LLC
+MIDlet-Name: DriveAlert
+MIDlet-Permissions: com.sprintpcs.util.System.getProtectedProperty,javax.microedition.io.Connector.bluetooth.client,javax.microedition.io.Connector.http,javax.microedition.io.Connector.socket,javax.microedition.io.Connector.file.write,javax.microedition.io.Connector.file.read,javax.microedition.io.Connector.sms,javax.wireless.messaging.sms.send,javax.wireless.messaging.sms.receive
+MicroEdition-Profile: MIDP-2.1
+SMS-Port: 50001

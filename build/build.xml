@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir=".." default="package-Debug" name="DriveAlert">
+
+	<!-- PROPERTIES -->
+	<property name="BOOT_JARS" value="C:\J2me\SWTK332\lib\sprint2_1.jar:C:\J2me\SWTK332\lib\midpapi20.jar:C:\J2me\SWTK332\lib\cldcapi11.jar:C:\J2me\SWTK332\lib\wma20.jar:C:\J2me\SWTK332\lib\mmapi.jar:C:\J2me\SWTK332\lib\j2me-ws.jar:C:\J2me\SWTK332\lib\j2me-xmlrpc.jar:C:\J2me\SWTK332\lib\jsr75.jar:C:\J2me\SWTK332\lib\jsr082.jar:C:\J2me\SWTK332\lib\jsr184.jar:C:\J2me\SWTK332\lib\jsr179.jar:C:\J2me\SWTK332\lib\satsa-apdu.jar:C:\J2me\SWTK332\lib\satsa-jcrmi.jar:C:\J2me\SWTK332\lib\satsa-pki.jar:C:\J2me\SWTK332\lib\satsa-crypto.jar:C:\J2me\SWTK332\lib\jsr211.jar:C:\J2me\SWTK332\lib\jsr234.jar:C:\J2me\SWTK332\lib\jsr226.jar:C:\J2me\SWTK332\lib\jsr238.jar:C:\J2me\SWTK332\lib\jsr229.jar:C:\J2me\SWTK332\lib\jsr180.jar:C:\J2me\SWTK332\lib\gps-one.jar:C:\J2me\SWTK332\lib\sprint1_0.jar:C:\J2me\SWTK332\lib\sprint2_0.jar:C:\J2me\SWTK332\lib\sprint2_1.jar:C:\J2me\SWTK332\lib\sprint2_2.jar:" />	
+	<property file="build/mtj-build.properties" />
+	<taskdef classname="BuildFilesFilter" classpath="build/custom-tasks" name="buildFilesFilter" />
+	<taskdef classpath="${antenna.lib}" resource="antenna.properties" />
+	
+	<target name="clean-Debug">
+		<delete dir="build/Debug" failonerror="false" />
+	</target>
+	
+	<target name="clean-Release">
+		<delete dir="build/Release" failonerror="false" />
+	</target>
+	
+	<target depends="clean-Debug" name="init-Debug">
+		<mkdir dir="build/Debug/DriveAlert/" />
+		<mkdir dir="deployed/Debug/" />
+		<mkdir dir="build/Debug/DriveAlert/preprocessed/" />
+		<mkdir dir="build/Debug/DriveAlert/classes/" />
+		<mkdir dir="build/Debug/DriveAlert/resources/" />
+		<mkdir dir="build/Debug/DriveAlert/bin/" />
+
+		<!-- copy source files -->
+		<copy todir="build/Debug/DriveAlert/classes">
+		    <fileset dir="src"/>
+		</copy>
+		
+		<!-- copy resource files -->
+		<copy todir="build/Debug/DriveAlert/resources">
+		    <fileset dir="res"/>
+		</copy>
+		
+		<copy file="Application Descriptor" tofile="deployed/Debug/DriveAlert.jad" />
+	</target>
+	
+	<target depends="clean-Release" name="init-Release">
+		<mkdir dir="build/Release/DriveAlert/" />
+		<mkdir dir="deployed/Release/" />
+		<mkdir dir="build/Release/DriveAlert/preprocessed/" />
+		<mkdir dir="build/Release/DriveAlert/classes/" />
+		<mkdir dir="build/Release/DriveAlert/resources/" />
+		<mkdir dir="build/Release/DriveAlert/bin/" />
+		
+		<!-- copy source files -->
+		<copy todir="build/Release/DriveAlert/classes">
+		    <fileset dir="src"/>
+		</copy>
+		
+		<!-- copy resource files -->
+		<copy todir="build/Release/DriveAlert/resources">
+		    <fileset dir="res"/>
+		</copy>
+		
+		<copy file="Application Descriptor" tofile="deployed/Release/DriveAlert.jad" />
+	</target>
+	
+	<target depends="init-Debug" name="preprocess-Debug">
+		<wtkpreprocess 
+			verbose="false"
+			srcdir="build/Debug/DriveAlert/classes/" 
+			destdir="build/Debug/DriveAlert/preprocessed/" 
+			symbols="DEBUG_MODE=true"
+			printsymbols="false" />
+	</target>
+	
+	<target depends="init-Release" name="preprocess-Release">
+		<wtkpreprocess 
+			verbose="false"
+			srcdir="build/Release/DriveAlert/classes/" 
+			destdir="build/Release/DriveAlert/preprocessed/" 
+			symbols="DEBUG_MODE=false"
+			printsymbols="false" />
+	</target>
+	
+	<target depends="preprocess-Debug" name="build-Debug">
+		<wtkbuild 
+			bootclasspath="${BOOT_JARS}" 
+			destdir="build/Debug/DriveAlert/bin/" 
+			encoding="UTF-8" 
+			preverify="false" 
+			source="1.3"
+			sourcepath="" 
+			srcdir="build/Debug/DriveAlert/preprocessed/" />
+	</target>
+	
+	<target depends="preprocess-Release" name="build-Release">
+		<wtkbuild 
+			bootclasspath="${BOOT_JARS}" 
+			destdir="build/Release/DriveAlert/bin/" 
+			encoding="UTF-8" 
+			preverify="false" 
+			source="1.3"
+			sourcepath="" 
+			srcdir="build/Release/DriveAlert/preprocessed/" />
+	</target>
+	
+	<target depends="build-Debug" name="package-Debug">
+		<wtkpackage 
+			autoversion="${do-autoversion}" 
+			bootclasspath="${BOOT_JARS}" 
+			jadfile="deployed/Debug/DriveAlert.jad" 
+			jarfile="deployed/Debug/DriveAlert.jar" 
+			libclasspath="" 
+			obfuscate="${do-obfuscate}" 
+			preverify="true"
+			config="CLDC-${wtk.cldc.version}"
+			profile="MIDP-${wtk.midp.version}"
+			cldc="false"
+			>
+			<fileset dir="build/Debug/DriveAlert/bin/" />
+			<fileset dir="build/Debug/DriveAlert/resources/" />
+		</wtkpackage>
+		<copy file="deployed/Debug/DriveAlert.jad" todir=".mtj.tmp/emulation" overwrite="true" />
+		<copy file="deployed/Debug/DriveAlert.jar" todir=".mtj.tmp/emulation" overwrite="true" />
+	</target>
+	
+	<target depends="build-Release" name="package-Release">
+		<wtkpackage 
+			autoversion="${do-autoversion}" 
+			bootclasspath="${BOOT_JARS}" 
+			jadfile="deployed/Release/DriveAlert.jad" 
+			jarfile="deployed/Release/DriveAlert.jar" 
+			libclasspath="" 
+			obfuscate="${do-obfuscate}" 
+			preverify="true"
+			config="CLDC-${wtk.cldc.version}"
+			profile="MIDP-${wtk.midp.version}"
+			cldc="false"
+			>
+			<fileset dir="build/Release/DriveAlert/bin/" />
+			<fileset dir="build/Release/DriveAlert/resources/" />
+		</wtkpackage>
+		<copy file="deployed/Release/DriveAlert.jad" todir=".mtj.tmp/emulation" overwrite="true" />
+		<copy file="deployed/Release/DriveAlert.jar" todir=".mtj.tmp/emulation" overwrite="true" />
+	</target>
+</project>

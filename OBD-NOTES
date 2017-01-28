@@ -1,0 +1,8 @@
+41 0F XX> 		Air intake temperature (00-FF, degrees above -40) 		ie. 0x40 	= 64-40 = 24 celcius
+41 01 XX>		DTC error codes
+41 10 XX XX>	Mass air flow (percent of 655.35) 						ie. 0x9511 	= 38161/65535 = 381.34 g/s
+41 11 XX> 		Throttle position (0-255, in percentages) 				ie. 0xff 	= 255/255 = 100 %
+41 0D XX> 		Speed metric (in km/h)									ie. 0x40	= 64 km/h
+41 0B XX>		Manifold pressure (in kPa)								ie. 0x64	= 100 kPa
+41 31 XX XX>	Engine runtime (in seconds)								ie. 0xffff	= 65535 seconds
+41 0C XX XX>	Engine RPM (percent of 16383)							ie. 0x283c	= 2575 (rounded up)
